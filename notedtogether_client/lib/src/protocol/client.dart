@@ -11,9 +11,31 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _i1;
 import 'dart:async' as _i2;
-import 'package:notedtogether_client/src/protocol/greeting.dart' as _i3;
-import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i4;
-import 'protocol.dart' as _i5;
+import 'package:notedtogether_client/src/protocol/notes.dart' as _i3;
+import 'package:notedtogether_client/src/protocol/greeting.dart' as _i4;
+import 'package:serverpod_auth_client/serverpod_auth_client.dart' as _i5;
+import 'protocol.dart' as _i6;
+
+/// {@category Endpoint}
+class EndpointNotes extends _i1.EndpointRef {
+  EndpointNotes(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'notes';
+
+  _i2.Future<void> createNote(_i3.Note note) => caller.callServerEndpoint<void>(
+        'notes',
+        'createNote',
+        {'note': note},
+      );
+
+  _i2.Future<List<_i3.Note>> getAllNotes() =>
+      caller.callServerEndpoint<List<_i3.Note>>(
+        'notes',
+        'getAllNotes',
+        {},
+      );
+}
 
 /// This is an example endpoint that returns a greeting message through its [hello] method.
 /// {@category Endpoint}
@@ -24,8 +46,8 @@ class EndpointGreeting extends _i1.EndpointRef {
   String get name => 'greeting';
 
   /// Returns a personalized greeting message: "Hello {name}".
-  _i2.Future<_i3.Greeting> hello(String name) =>
-      caller.callServerEndpoint<_i3.Greeting>(
+  _i2.Future<_i4.Greeting> hello(String name) =>
+      caller.callServerEndpoint<_i4.Greeting>(
         'greeting',
         'hello',
         {'name': name},
@@ -34,10 +56,10 @@ class EndpointGreeting extends _i1.EndpointRef {
 
 class Modules {
   Modules(Client client) {
-    auth = _i4.Caller(client);
+    auth = _i5.Caller(client);
   }
 
-  late final _i4.Caller auth;
+  late final _i5.Caller auth;
 }
 
 class Client extends _i1.ServerpodClientShared {
@@ -56,7 +78,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
           host,
-          _i5.Protocol(),
+          _i6.Protocol(),
           securityContext: securityContext,
           authenticationKeyManager: authenticationKeyManager,
           streamingConnectionTimeout: streamingConnectionTimeout,
@@ -66,16 +88,22 @@ class Client extends _i1.ServerpodClientShared {
           disconnectStreamsOnLostInternetConnection:
               disconnectStreamsOnLostInternetConnection,
         ) {
+    notes = EndpointNotes(this);
     greeting = EndpointGreeting(this);
     modules = Modules(this);
   }
+
+  late final EndpointNotes notes;
 
   late final EndpointGreeting greeting;
 
   late final Modules modules;
 
   @override
-  Map<String, _i1.EndpointRef> get endpointRefLookup => {'greeting': greeting};
+  Map<String, _i1.EndpointRef> get endpointRefLookup => {
+        'notes': notes,
+        'greeting': greeting,
+      };
 
   @override
   Map<String, _i1.ModuleEndpointCaller> get moduleLookup =>

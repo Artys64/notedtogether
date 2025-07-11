@@ -1,2 +1,5 @@
+notes:
+  - createNote:
+  - getAllNotes:
 greeting:
   - hello:

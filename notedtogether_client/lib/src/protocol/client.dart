@@ -35,6 +35,12 @@ class EndpointNotes extends _i1.EndpointRef {
         'getAllNotes',
         {},
       );
+
+  _i2.Future<void> deleteNote(_i3.Note note) => caller.callServerEndpoint<void>(
+        'notes',
+        'deleteNote',
+        {'note': note},
+      );
 }
 
 /// This is an example endpoint that returns a greeting message through its [hello] method.

@@ -190,6 +190,35 @@ class _NotesEndpoint {
       }
     });
   }
+
+  _i3.Future<void> deleteNote(
+    _i1.TestSessionBuilder sessionBuilder,
+    _i4.Note note,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+        endpoint: 'notes',
+        method: 'deleteNote',
+      );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'notes',
+          methodName: 'deleteNote',
+          parameters: _i1.testObjectToJson({'note': note}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue = await (_localCallContext.method.call(
+          _localUniqueSession,
+          _localCallContext.arguments,
+        ) as _i3.Future<void>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
 }
 
 class _GreetingEndpoint {

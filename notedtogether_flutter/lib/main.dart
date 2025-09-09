@@ -144,7 +144,13 @@ class NotesPageState extends State<NotesPage> {
               itemCount: _notes!.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(_notes![index].text),
+                  title: Text(
+                    _notes![index].text,
+                    style: const TextStyle(
+                      color: Colors.black87,
+                      fontSize: 16,
+                    ),
+                  ),
                   leading: CircularUserImage(
                     userInfo: _notes![index].createdBy,
                     size: 32,

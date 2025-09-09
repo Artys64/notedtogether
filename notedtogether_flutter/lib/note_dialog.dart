@@ -46,9 +46,17 @@ class NoteDialogState extends State<NoteDialog> {
                 expands: true,
                 maxLines: null,
                 minLines: null,
+                style: const TextStyle(
+                  color: Colors.black87,
+                  fontSize: 16,
+                ),
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Write your note here...',
+                  hintStyle: TextStyle(
+                    color: Colors.black54,
+                    fontSize: 16,
+                  ),
                 ),
               ),
             ),
